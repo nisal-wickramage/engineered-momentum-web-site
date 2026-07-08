@@ -1,0 +1,173 @@
+---
+import { Zap } from 'lucide-astro';
+---
+
+<header>
+	<div class="logo">
+		<Zap size={24} strokeWidth={2} />
+	</div>
+	<nav>
+		<a href="#">Home</a>
+		<a href="#">Insights</a>
+		<a href="#" class="cta">Let's Talk Engineering</a>
+	</nav>
+</header>
+
+<main>
+	<section class="hero">
+		<h1>Engineering clarity for<br />complex systems</h1>
+		<p>
+			I help teams ship reliable software through systems thinking, clear architecture, and
+			disciplined execution.
+		</p>
+	</section>
+
+	<section class="core-pillars">
+		<h2>CORE PILLARS</h2>
+		<div class="pillars-grid">
+			<div class="pillar">
+				<h3>Systems Architecture</h3>
+				<p>
+					Design systems that scale. Modular boundaries, clear interfaces, and decisions that
+					reduce risk as complexity grows.
+				</p>
+			</div>
+			<div class="pillar">
+				<h3>Technical Leadership</h3>
+				<p>
+					Lead teams toward better outcomes. Mentorship, code review, and alignment between
+					engineering and business goals.
+				</p>
+			</div>
+			<div class="pillar">
+				<h3>Reliable Delivery</h3>
+				<p>
+					Ship with confidence. CI/CD, observability, testing, and operational practices that
+					keep production stable.
+				</p>
+			</div>
+			<div class="pillar">
+				<h3>Engineering Culture</h3>
+				<p>
+					Build teams that last. Blameless postmortems, documentation, and sustainable ways of
+					working.
+				</p>
+			</div>
+		</div>
+	</section>
+</main>
+
+<style>
+	header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 24px 64px;
+		border-bottom: 1px solid var(--primary);
+	}
+
+	.logo {
+		font-weight: 700;
+		font-size: 20px;
+		display: flex;
+		align-items: center;
+		color: var(--primary);
+	}
+
+	nav {
+		display: flex;
+		gap: 32px;
+		align-items: center;
+	}
+
+	nav a {
+		text-decoration: none;
+		color: var(--primary);
+		font-weight: 600;
+	}
+
+	nav a.cta {
+		background-color: var(--accent);
+		color: var(--background);
+		padding: 12px 24px;
+		border-radius: 8px;
+		transition: opacity 0.3s;
+	}
+
+	nav a.cta:hover {
+		opacity: 0.9;
+	}
+
+	main {
+		padding: 32px 64px;
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	.hero {
+		text-align: center;
+		padding: 24px 0 32px 0;
+	}
+
+	.hero h1 {
+		font-size: 48px;
+		font-weight: 700;
+		margin-bottom: 16px;
+		line-height: 1.2;
+	}
+
+	.hero p {
+		font-size: 18px;
+		color: var(--neutral-dark);
+		max-width: 600px;
+		margin: 0 auto;
+	}
+
+	.core-pillars {
+		padding: 32px 0 0 0;
+		text-align: center;
+	}
+
+	.core-pillars h2 {
+		font-size: 18px;
+		font-weight: 700;
+		color: var(--primary);
+		letter-spacing: 1.5px;
+		margin-bottom: 32px;
+	}
+
+	.pillars-grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 32px;
+	}
+
+	.pillar {
+		border: 1px solid var(--neutral-light);
+		border-radius: 8px;
+		padding: 24px;
+		text-align: left;
+		transition:
+			transform 0.2s,
+			box-shadow 0.2s;
+	}
+
+	.pillar:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+	}
+
+	.pillar h3 {
+		font-size: 18px;
+		font-weight: 600;
+		margin-bottom: 12px;
+		margin-top: 0;
+	}
+
+	.pillar p {
+		color: var(--neutral-dark);
+		line-height: 1.5;
+		font-size: 14px;
+		margin: 0;
+	}
+</style>
