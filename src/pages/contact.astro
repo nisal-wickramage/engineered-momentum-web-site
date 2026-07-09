@@ -1,0 +1,273 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Linkedin, Mic2, Megaphone } from 'lucide-astro';
+
+const speakingHistory = [
+  {
+    title: "Building Evolutionary Architectures in Practice",
+    event: "Tech Summit 2023",
+    date: "November 2023",
+    description: "A deep dive into how teams can build systems that support guided, incremental change over time."
+  },
+  {
+    title: "Engineering Leverage with AI Platforms",
+    event: "Cloud Native Days",
+    date: "June 2023",
+    description: "Exploring how internal developer platforms can integrate AI to amplify engineering capability."
+  },
+  {
+    title: "Scaling Beyond the Monolith",
+    event: "Microservices World",
+    date: "February 2023",
+    description: "Lessons learned from decomposing legacy systems into maintainable service-oriented architectures."
+  }
+];
+
+const interests = [
+  "Systems Architecture & Design Patterns",
+  "Engineering Culture & Team Topologies",
+  "DevOps & Platform Engineering",
+  "AI-Assisted Development",
+  "Evolutionary Architectures"
+];
+---
+
+<Layout>
+  <header>
+    <div class="logo">
+      <a href="/">← Back</a>
+    </div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/insights">Insights</a>
+      <a href="/contact" class="cta">Let's Talk Engineering</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro-section">
+      <h1>Let's Talk Engineering</h1>
+      <p class="bio">
+        I'm Nisal Wickramage—an engineering leader dedicated to bridging the gap between technical excellence and business momentum.
+      </p>
+      
+      <a href="https://www.linkedin.com/in/nisal-wickramage/" target="_blank" rel="noopener noreferrer" class="linkedin-link">
+        <Linkedin size={20} />
+        <span>Connect on LinkedIn</span>
+      </a>
+    </section>
+
+    <section class="speaking-section">
+      <div class="section-header">
+        <Mic2 size={24} />
+        <h2>Past Public Appearances</h2>
+      </div>
+      <div class="speaking-grid">
+        {speakingHistory.map((talk) => (
+          <div class="speaking-card">
+            <span class="talk-date">{talk.date}</span>
+            <h3>{talk.title}</h3>
+            <p class="talk-event">{talk.event}</p>
+            <p class="talk-desc">{talk.description}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="interests-section">
+      <div class="section-header">
+        <Megaphone size={24} />
+        <h2>Interests & Topics</h2>
+      </div>
+      <p>I'm always open to speaking opportunities or deep-dive discussions on these areas:</p>
+      <div class="interests-tags">
+        {interests.map((interest) => (
+          <span class="interest-tag">{interest}</span>
+        ))}
+      </div>
+      <div class="contact-cta">
+          <p>Interested in having me speak at your event or just want to chat engineering? Feel free to reach out via LinkedIn.</p>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 64px;
+    border-bottom: 1px solid var(--primary);
+  }
+
+  .logo a {
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  nav {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  nav a.cta {
+    background-color: var(--accent);
+    color: var(--background);
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: opacity 0.3s;
+  }
+
+  main {
+    padding: 64px 64px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .intro-section {
+    margin-bottom: 80px;
+  }
+
+  .intro-section h1 {
+    font-size: 56px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    line-height: 1.1;
+  }
+
+  .bio {
+    font-size: 24px;
+    line-height: 1.5;
+    color: var(--neutral-dark);
+    margin-bottom: 32px;
+    max-width: 700px;
+  }
+
+  .linkedin-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #0077b5;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.2s;
+  }
+
+  .linkedin-link:hover {
+    transform: translateY(-2px);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+    color: var(--primary);
+  }
+
+  .section-header h2 {
+    font-size: 28px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .speaking-section {
+    margin-bottom: 80px;
+  }
+
+  .speaking-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .speaking-card {
+    border: 1px solid var(--neutral-light);
+    padding: 32px;
+    border-radius: 12px;
+    background-color: var(--background);
+  }
+
+  .talk-date {
+    display: block;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .speaking-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .talk-event {
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 12px;
+    font-size: 16px;
+  }
+
+  .talk-desc {
+    color: var(--neutral-dark);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .interests-section {
+    background-color: var(--neutral-light);
+    padding: 48px;
+    border-radius: 16px;
+  }
+
+  .interests-section p {
+      margin-bottom: 24px;
+      font-size: 18px;
+      color: var(--neutral-dark);
+  }
+
+  .interests-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .interest-tag {
+    background-color: var(--background);
+    padding: 10px 20px;
+    border-radius: 99px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--primary);
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+
+  .contact-cta {
+      border-top: 1px solid rgba(0,0,0,0.1);
+      padding-top: 24px;
+  }
+
+  @media (max-width: 768px) {
+    header { padding: 16px 24px; }
+    main { padding: 40px 24px; }
+    .intro-section h1 { font-size: 40px; }
+    .bio { font-size: 20px; }
+    .interests-section { padding: 32px 24px; }
+  }
+</style>
