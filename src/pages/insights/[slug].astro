@@ -1,0 +1,252 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notes');
+  return notes.map((note) => ({
+    params: { slug: note.id },
+    props: { note },
+  }));
+}
+
+interface Props {
+  note: any;
+}
+
+const { note } = Astro.props;
+const { Content } = await render(note);
+---
+
+<Layout>
+  <header>
+    <div class="logo">
+      <a href="/insights">← Insights</a>
+    </div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/insights">Insights</a>
+      <a href="#" class="cta">Let's Talk Engineering</a>
+    </nav>
+  </header>
+
+  <main>
+    <article class="note">
+      <div class="note-content">
+        <Content />
+      </div>
+
+      <footer class="note-footer">
+        <div class="note-meta">
+          <span class="author">By {note.data.author}</span>
+          <span class="separator">•</span>
+          <time datetime={note.data.pubDate.toISOString()}>
+            {note.data.pubDate.toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </time>
+        </div>
+        {note.data.tags && note.data.tags.length > 0 && (
+          <div class="note-tags">
+            {note.data.tags.map((tag: string) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        )}
+      </footer>
+    </article>
+  </main>
+</Layout>
+
+<style>
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 64px;
+    border-bottom: 1px solid var(--primary);
+  }
+
+  .logo a {
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  nav {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  nav a.cta {
+    background-color: var(--accent);
+    color: var(--background);
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: opacity 0.3s;
+  }
+
+  nav a.cta:hover {
+    opacity: 0.9;
+  }
+
+  main {
+    padding: 32px 64px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .note-footer {
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 1px solid var(--neutral-light);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .note-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--neutral-dark);
+    font-size: 16px;
+  }
+
+  .separator {
+    opacity: 0.5;
+  }
+
+  .note-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    background-color: var(--neutral-light);
+    color: var(--primary);
+    padding: 4px 12px;
+    border-radius: 99px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .note-footer time {
+    color: var(--neutral-dark);
+    font-size: 16px;
+  }
+
+  .note-content {
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--primary);
+  }
+
+  .note-content :global(h2) {
+    font-size: 32px;
+    font-weight: 600;
+    margin-top: 48px;
+    margin-bottom: 24px;
+    color: var(--primary);
+  }
+
+  .note-content :global(h3) {
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 32px;
+    margin-bottom: 16px;
+    color: var(--primary);
+  }
+
+  .note-content :global(p) {
+    margin-bottom: 24px;
+  }
+
+  .note-content :global(ul),
+  .note-content :global(ol) {
+    margin-bottom: 24px;
+    padding-left: 32px;
+  }
+
+  .note-content :global(li) {
+    margin-bottom: 8px;
+    color: var(--primary);
+  }
+
+  .note-content :global(code) {
+    background-color: var(--neutral-light);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    color: var(--primary);
+  }
+
+  .note-content :global(pre) {
+    background-color: var(--neutral-light);
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 24px;
+  }
+
+  .note-content :global(pre code) {
+    background-color: transparent;
+    padding: 0;
+    color: inherit;
+  }
+
+  .note-content :global(blockquote) {
+    border-left: 4px solid var(--accent);
+    padding-left: 16px;
+    margin-left: 0;
+    margin-bottom: 24px;
+    color: var(--neutral-dark);
+    font-style: italic;
+  }
+
+  .note-content :global(a) {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    transition: opacity 0.2s;
+  }
+
+  .note-content :global(a:hover) {
+    opacity: 0.8;
+  }
+
+  .note-content :global(hr) {
+    border: none;
+    border-top: 1px solid var(--neutral-light);
+    margin: 48px 0;
+  }
+
+  .note-content :global(strong) {
+    font-weight: 600;
+    color: var(--primary);
+  }
+
+  .note-content :global(em) {
+    font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    header {
+      padding: 16px 24px;
+    }
+
+    main {
+      padding: 16px 24px;
+    }
+  }
+</style>

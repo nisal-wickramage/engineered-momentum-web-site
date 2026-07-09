@@ -1,0 +1,194 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const notes = (await getCollection('notes')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<Layout>
+  <header>
+    <div class="logo">
+      <a href="/">← Back</a>
+    </div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/insights">Insights</a>
+      <a href="#" class="cta">Let's Talk Engineering</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Insights</h1>
+      <p>
+        Articles on systems architecture, technical leadership, and engineering
+        culture.
+      </p>
+    </section>
+
+    <section class="notes-list">
+      {
+        notes.length > 0 ? (
+          <div class="notes-grid">
+            {notes.map((note) => (
+              <article class="note-card">
+                <a href={`/insights/${note.id}`}>
+                  <h2>{note.data.title}</h2>
+                  <p>{note.data.description}</p>
+                  <time datetime={note.data.pubDate.toISOString()}>
+                    {note.data.pubDate.toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </time>
+                </a>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <p class="no-notes">No insights yet. Check back soon!</p>
+        )
+      }
+    </section>
+  </main>
+</Layout>
+
+<style>
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 64px;
+    border-bottom: 1px solid var(--primary);
+  }
+
+  .logo a {
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  nav {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  nav a.cta {
+    background-color: var(--accent);
+    color: var(--background);
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: opacity 0.3s;
+  }
+
+  nav a.cta:hover {
+    opacity: 0.9;
+  }
+
+  main {
+    padding: 32px 64px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 48px 0;
+  }
+
+  .hero h1 {
+    font-size: 56px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    line-height: 1.2;
+  }
+
+  .hero p {
+    font-size: 20px;
+    color: var(--neutral-dark);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .notes-list {
+    padding: 48px 0;
+  }
+
+  .notes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .note-card {
+    border: 1px solid var(--neutral-light);
+    border-radius: 8px;
+    padding: 32px;
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .note-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  .note-card a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .note-card h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--primary);
+  }
+
+  .note-card p {
+    color: var(--neutral-dark);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .note-card time {
+    color: var(--neutral-dark);
+    font-size: 14px;
+  }
+
+  .no-notes {
+    text-align: center;
+    color: var(--neutral-dark);
+    font-size: 18px;
+    padding: 48px 0;
+  }
+
+  @media (max-width: 768px) {
+    .notes-grid {
+      grid-template-columns: 1fr;
+    }
+
+    header {
+      padding: 16px 24px;
+    }
+
+    main {
+      padding: 16px 24px;
+    }
+
+    .hero h1 {
+      font-size: 36px;
+    }
+  }
+</style>
