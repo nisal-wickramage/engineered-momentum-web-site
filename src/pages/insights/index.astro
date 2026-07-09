@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { Search } from 'lucide-astro';
 import Layout from '../../layouts/Layout.astro';
 
 const notes = (await getCollection('notes')).sort(
@@ -20,13 +21,29 @@ const notes = (await getCollection('notes')).sort(
   </header>
 
   <main>
+    <div class="search-section">
+      <div class="search-container">
+        <div class="search-wrapper">
+          <Search size={18} class="search-icon" />
+          <input 
+            type="text" 
+            id="search-input" 
+            placeholder="Search insights..." 
+            aria-label="Search insights"
+          />
+        </div>
+      </div>
+    </div>
 
     <section class="notes-list">
+      <div id="no-results" class="no-notes" style="display: none;">
+        No insights found matching your search.
+      </div>
       {
         notes.length > 0 ? (
-          <div class="notes-grid">
+          <div class="notes-grid" id="notes-grid">
             {notes.map((note) => (
-              <article class="note-card">
+              <article class="note-card" data-title={note.data.title.toLowerCase()} data-description={note.data.description.toLowerCase()}>
                 <a href={`/insights/${note.id}`}>
                   <h2>{note.data.title}</h2>
                   <p>{note.data.description}</p>
@@ -49,6 +66,39 @@ const notes = (await getCollection('notes')).sort(
   </main>
 </Layout>
 
+<script>
+  const searchInput = document.getElementById('search-input') as HTMLInputElement;
+  const notesGrid = document.getElementById('notes-grid');
+  const noResults = document.getElementById('no-results');
+  const noteCards = document.querySelectorAll('.note-card');
+
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      const query = (e.target as HTMLInputElement).value.toLowerCase();
+      let hasResults = false;
+
+      noteCards.forEach((card) => {
+        const title = card.getAttribute('data-title') || '';
+        const description = card.getAttribute('data-description') || '';
+        
+        if (title.includes(query) || description.includes(query)) {
+          (card as HTMLElement).style.display = 'block';
+          hasResults = true;
+        } else {
+          (card as HTMLElement).style.display = 'none';
+        }
+      });
+
+      if (notesGrid) {
+        notesGrid.style.display = hasResults ? 'grid' : 'none';
+      }
+      if (noResults) {
+        noResults.style.display = hasResults ? 'none' : 'block';
+      }
+    });
+  }
+</script>
+
 <style>
   header {
     display: flex;
@@ -56,6 +106,48 @@ const notes = (await getCollection('notes')).sort(
     align-items: center;
     padding: 24px 64px;
     border-bottom: 1px solid var(--primary);
+  }
+
+  .search-section {
+    padding: 48px 0 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .search-container {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 16px;
+    color: var(--neutral-dark);
+    pointer-events: none;
+  }
+
+  #search-input {
+    width: 100%;
+    padding: 14px 16px 14px 48px;
+    border: 1px solid var(--neutral-light);
+    border-radius: 12px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: all 0.2s;
+    background-color: var(--neutral-light);
+  }
+
+  #search-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background-color: var(--background);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
   }
 
   .logo a {
@@ -174,6 +266,14 @@ const notes = (await getCollection('notes')).sort(
 
     header {
       padding: 16px 24px;
+    }
+
+    .search-section {
+      padding: 32px 0 0;
+    }
+
+    nav {
+      gap: 16px;
     }
 
     main {
